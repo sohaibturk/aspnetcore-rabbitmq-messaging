@@ -2,5 +2,5 @@
 
 public interface IMessageProducer
 {
-    Task Send<T>(T message);
+    Task Send<T>(T message, string queueName);
 }

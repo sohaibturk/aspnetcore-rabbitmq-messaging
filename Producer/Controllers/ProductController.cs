@@ -9,6 +9,7 @@ namespace Producer.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IMessageProducer _messageProducer;
+    private const string _queueName = "products";
 
     public ProductController(IMessageProducer messageProducer)
     {
@@ -18,7 +19,7 @@ public class ProductController : ControllerBase
     [HttpPost("products")]
     public IActionResult Create([FromBody] ProductDto product)
     {
-        _messageProducer.Send(product);
+        _messageProducer.Send(product, _queueName);
 
         return Ok(new
         {

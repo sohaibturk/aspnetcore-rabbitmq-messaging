@@ -7,19 +7,17 @@ namespace Producer.RabbitMQ;
 public class MessageProducer : IMessageProducer
 {
     private readonly IRabbitMqConnection _connection;
-    private readonly string _queueName;
 
-    public MessageProducer(IRabbitMqConnection connection, string queueName)
+    public MessageProducer(IRabbitMqConnection connection)
     {
         _connection = connection;
-        _queueName = queueName;
     }
-    public async Task Send<T>(T message)
+    public async Task Send<T>(T message, string queueName)
     {
         using var channel = await _connection.Connection.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
-            queue: _queueName, 
+            queue: queueName, 
             durable: false, 
             exclusive: false, 
             autoDelete: false);
@@ -28,7 +26,7 @@ public class MessageProducer : IMessageProducer
 
         await channel.BasicPublishAsync(
             exchange: string.Empty,
-            routingKey: _queueName,
+            routingKey: queueName,
             body: body);
     }
 }
