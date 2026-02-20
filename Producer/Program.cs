@@ -1,6 +1,11 @@
+using Producer.RabbitMQ;
+using Producer.RabbitMQ.Connection;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var connection = await RabbitMqConnection.CreateAsync();
+builder.Services.AddSingleton<IRabbitMqConnection>(connection);
+builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
