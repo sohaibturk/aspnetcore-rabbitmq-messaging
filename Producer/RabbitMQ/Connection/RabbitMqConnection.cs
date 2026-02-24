@@ -17,7 +17,6 @@ public class RabbitMqConnection : IRabbitMqConnection, IDisposable
         var factory = new ConnectionFactory
         {
             HostName = hostName,
-            //DispatchConsumersAsync = true,
             AutomaticRecoveryEnabled = true,
             NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
         };
